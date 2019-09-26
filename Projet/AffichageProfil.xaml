@@ -1,0 +1,155 @@
+﻿<!--Page Permettant l'affichage des informations du profil-->
+<Page
+    x:Class="Projet.AffichageProfil"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:metier="using:Métier2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+        <DataTemplate x:DataType="metier:Manager" x:Key="dataTemplateCompteCourant">
+            <!--Grid contenant un TextBlock ("Voiture"), une ListBox contenant le modèle et la marque de la voiture et un RelativePanel pour affiche la distance parcourue avec la voiture sélectionnée-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Voiture : " VerticalAlignment="Top" Style="{StaticResource defaultTextBlock}"/>
+                <Border Style="{StaticResource BorderListBox}" Grid.Column="1">
+                    <!--ListBox contenant le modèle et la marque de chaque voiture-->
+                    <ListBox Background="#FF1D1D1D" ItemsSource="{Binding CompteCourant.Voitures}" SelectedIndex="{Binding SelectedIndexVoiture, Mode=TwoWay}" DisplayMemberPath="Modele" Foreground="White"/>
+                </Border>
+                <!--StackPanel contenant La disance parcourue par le profil avec la voiture sélectionnée-->
+                <TextBlock Grid.Column="2" Style="{StaticResource defaultTextBlock}">
+                            <Run Text=" Distance : "/>
+                            <Run Text="{x:Bind KmVoiture, Mode=OneWay}"/>
+                            <Run Text=" Km"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="metier:Manager" x:Key="dataTemplateCompteEcole">
+            <Grid>
+                <TextBlock Style="{StaticResource defaultTextBlock}">
+                    <Run Text="Prochaine heure de conduite :"/>
+                    <Run Text="{x:Bind ProchaineHeure, Mode=OneWay, Converter={StaticResource dateTime2StringConverter}}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+            <local:CompteCourantTemplateSelector DateTemplateCompteCourant="{StaticResource dataTemplateCompteCourant}" DateTemplateCompteEcole="{StaticResource dataTemplateCompteEcole}" x:Key="compteTemplateSelector"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--ListView contenant le prénom et le nombre de kilomètres totaux parcourus de chaque profil permettant d'afficher les informations du prfil sélectionné-->
+        <Border Style="{StaticResource BorderListBox}" Margin="10" HorizontalAlignment="Left">
+            <ListView ItemsSource="{x:Bind Manager.CompteCourant.Profils}" SelectedIndex="{x:Bind Manager.SelectedIndexProfil, Mode=TwoWay}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="metier:Profil">
+                        <local:AffichageUserControl FirstLabel="{x:Bind Prenom}" SecondLabel="{x:Bind KmTotaux}" Image="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+
+        <Border Style="{StaticResource BorderListBox}" Margin="10" Grid.Row="1">
+            <!--Grid contenant toutes les informations concernant le profil sélectionné-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <!--Image du profil-->
+                    <!--<Image Source="{x:Bind Manager.SelectedProfil.Image, Mode=OneWay, Converter={StaticResource string2UriConverter}}" Margin="25,0"/>-->
+                    <Image Source="{Binding SelectedProfil.Image, Mode=OneWay, Converter={StaticResource string2UriConverter}}" Margin="10"/>
+                    <!--Grid contenant le prénom, le nom et la date de naissance du profil-->
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock>
+                            <Run Text="Prénom : "/>
+                            <Run Text="{x:Bind Manager.SelectedProfil.Prenom, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Grid.Row="1">
+                            <Run Text="Nom : "/>
+                            <Run Text="{x:Bind Manager.SelectedProfil.Nom, Mode=OneWay}"/>
+                        </TextBlock>
+                        <TextBlock Grid.Row="2">
+                            <Run Text="Date de naissance : "/>
+                            <Run Text="{x:Bind Manager.SelectedProfil.Naissance, Mode=OneWay, Converter={StaticResource dateTime2StringConverter}}"/>
+                        </TextBlock>
+                    </Grid>
+                    <!--Grid contenant la date de création et la date du prochain rendez-vous pédagogique-->
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--StackPanel contenant la date de création du profil-->
+                        <TextBlock Grid.Row="1">
+                            <Run Text="Création : " />
+                            <Run Text="{x:Bind Manager.SelectedProfil.Creation, Mode=OneWay, Converter={StaticResource dateTime2StringConverter}}"/>
+                        </TextBlock>
+                        <!--StackPanel contenant la date du prochain rendez-vous pédagogique-->
+                        <TextBlock Grid.Row="2">
+                            <Run Text="Rendez-vous pédagogique : "/>
+                            <Run Text="{x:Bind Manager.SelectedProfil.RdvPeda, Mode=OneWay, Converter={StaticResource dateTime2StringConverter}}"/>
+                        </TextBlock>
+                        <Button Content="Modifier" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,15,0" Click="Button_Click" FontSize="32"/>
+                    </Grid>
+                </Grid>
+                <!--Grid contenant le nombre de kilomètres totaux parcourus en conduite accompagnée, la distance parcourue en fonction de chaque voiture, la date du permis de conduire et le numéro de dossier (NEPH)-->
+                <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="25,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <!--StackPanel contenant le nombre de kilomètres totaux parcourus en conduite accompagnée par le profil sélectionné-->
+                    <TextBlock>
+                        <Run Text="Kilomètres totaux parcourus en conduite accompagnée : "/>
+                        <Run Text="{x:Bind Manager.SelectedProfil.KmTotaux, Mode=OneWay}"/>
+                    </TextBlock>
+
+                    <!--Content control permettant l'affichage de la liste de voitures lorsque le compte est un compte client-->
+                    <ContentControl Content="{Binding}" Grid.Row="1"
+                                     ContentTemplateSelector="{StaticResource compteTemplateSelector}"/>
+                    
+                    <!--StackPanel contenant La date de passage du permis de conduire-->
+                    <TextBlock Grid.Row="2">
+                        <Run Text="Date permis de conduire : "/>
+                        <Run Text="{x:Bind Manager.SelectedProfil.Permis, Mode=OneWay, Converter={StaticResource dateTime2StringConverter}}"/>
+                    </TextBlock>
+                    <!--StackPanel contenant le numéro de dossier NEPH-->
+                    <TextBlock Grid.Row="3" VerticalAlignment="Top">
+                        <Run Text="N° de dossier (NEPH) : "/>
+                        <Run Text="{x:Bind Manager.SelectedProfil.NEPH, Mode=OneWay, FallbackValue=Inconnu}"/>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

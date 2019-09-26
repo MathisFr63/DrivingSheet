@@ -1,0 +1,94 @@
+﻿<!--Page permettant de créer un nouveau profil-->
+<Page
+    x:Class="Projet.NewProfil"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+    </Page.Resources>
+
+    <Grid BorderBrush="DarkGray" BorderThickness="5" Margin="10" CornerRadius="10" Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Grid permettant la saisie du prénom-->
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Prénom : "/>
+                <TextBox Text="{x:Bind profil.Prenom, Mode=TwoWay}" MinWidth="150" Grid.Column="1"/>
+            </Grid>
+            <!--Grid permettant la saisie du nom-->
+            <Grid VerticalAlignment="Center" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Nom : "/>
+                <TextBox Text="{x:Bind profil.Nom, Mode=TwoWay}" MinWidth="150" Grid.Column="1"/>
+            </Grid>
+            <!--StackPanel permettant la saisie de la date de naissance-->
+            <Grid VerticalAlignment="Center" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Date de naissance : "/>
+                <DatePicker FontSize="28" Date="{x:Bind profil.Naissance, Mode=TwoWay, Converter={StaticResource DateTime2DateTimeOffset}}" Grid.Column="1"/>
+            </Grid>
+            <!--StackPanel permettant la saisie de la date du prochain rendez-vous pédagogique-->
+            <Grid VerticalAlignment="Center" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Rendez-vous pédagogique : "/>
+                <DatePicker FontSize="28" Date="{x:Bind profil.RdvPeda, Mode=TwoWay, Converter={StaticResource DateTime2DateTimeOffset}}" Grid.Column="1"/>
+            </Grid>
+            <!--StackPanel permettant la saisie de la date du passage du permis de conduire-->
+            <Grid VerticalAlignment="Center" Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Permis : "/>
+                <DatePicker FontSize="28" Date="{x:Bind profil.Permis, Mode=TwoWay, Converter={StaticResource DateTime2DateTimeOffset}}" Grid.Column="1"/>
+            </Grid>
+            <Image Source="/Assets/Visage.jpg" HorizontalAlignment="Center" Grid.Column="1" Grid.RowSpan="5" Margin="15"/>
+        </Grid>
+
+
+
+        <!--Grid contenant 2 boutons permettant de créer le profil ou d'annuler la création -->
+        <Grid Grid.Row="5" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Bouton permettant d'ajouter le profil à la liste de profils de notre compte-->
+            <Button Content="Ajouter" HorizontalAlignment="Center" Click="Ajouter"/>
+            <!--Bouton permettant d'annuler la création du profil-->
+            <Button Content="Annuler" Grid.Column="1" HorizontalAlignment="Center" Click="Button_Click_1"/>
+        </Grid>
+    </Grid>
+</Page>

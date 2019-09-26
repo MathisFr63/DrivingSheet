@@ -1,0 +1,57 @@
+﻿<!--Page permettant de se connecter ou bien d'aller s'inscrire si l'on a pas de compte-->
+<Page
+    x:Class="Projet.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+    </Page.Resources>
+
+    <Grid Style="{StaticResource GridHome}">
+        <!--Grid permettant de centrer les données-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--Grid contenant toutes les données de la page afin de se connecter-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--StackPanel contenant un TextBlock et un TextBox permettant de saisir l'identifiant-->
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Adresse e-mail : "/>
+                <TextBox MinWidth="250" Text="{x:Bind id, Mode=TwoWay}" Grid.Column="1"/>
+            </Grid>
+            <!--StackPanel contenant un TextBlock et un TextBox permettant de saisir le mot de passe-->
+            <Grid VerticalAlignment="Center" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Mot De Passe : "/>
+                <PasswordBox MinWidth="200" Password="{x:Bind mdp, Mode=TwoWay}" Grid.Column="1"/>
+            </Grid>
+            <!--CheckBox permettant de choisir si l'on veut que l'application sauvegarde notre Identifiant pour ne pas le retaper à chaque fois-->
+            <CheckBox Content="Se souvenir de moi ?" Grid.Row="2" VerticalAlignment="Center" Foreground="White" FontSize="32" FontWeight="Bold" FontFamily="consolas" HorizontalAlignment="Center"/>
+            <!--Button permettant de se connecter lorque l'on a saisi notre identifiant et notre mot de passe-->
+            <Button Content="Connexion" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Connexion"/>
+            <!--HyperLinkButton permettant de se diriger vers la page "Inscription" si l'on veut créer un compte-->
+            <HyperlinkButton Content="S'inscrire" Grid.Row="4" HorizontalAlignment="Center" FontSize="32" FontFamily="consolas" FontStyle="Italic" Foreground="White" Click="Inscription"/>
+        </Grid>
+    </Grid>
+</Page>

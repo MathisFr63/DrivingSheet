@@ -1,0 +1,152 @@
+﻿<Application
+    x:Class="Projet.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    RequestedTheme="Light">
+
+
+    <Application.Resources>
+        <local:DateTime2String x:Key="dateTime2StringConverter"/>
+        <local:DateTime2DateTimeOffset x:Key="DateTime2DateTimeOffset"/>
+        <local:Nom2UriConverter x:Key="string2UriConverter"/>
+
+        <!--Fond Noire pour les grid-->
+        <Style TargetType="Grid" x:Key="GridHome">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Assets/Carbone1.jpg"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Personnalisation des TextBox-->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF1D1D1D"/>
+        </Style>
+
+        <!--Personnalisation des PasswordBox-->
+        <Style TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF1D1D1D"/>
+        </Style>
+
+        <!--Personalisation du texte pour qu'il soit blanc avec une talle de 32 en gras-->
+        <Style TargetType="TextBlock" x:Key="defaultTextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,25,0"/>
+            <Setter Property="FontFamily" Value="consolas"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource defaultTextBlock}"/>
+
+        <!--Personnalisation du texte lorque l'on affiche des données afin que le texte soit blanc en italique et avec une taille de 30-->
+        <Style x:Key="TextDonnees" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!--Personalisation du texte dans la listeView-->
+        <Style TargetType="TextBlock" x:Key="textL">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="28"/>
+        </Style>
+
+        <!--Personnalisation de certaines bordures ayant une couleur orange et une épaisseur de 2 pixels-->
+        <Style TargetType="Border" x:Key="BorderOrange">
+            <Setter Property="BorderBrush" Value="#FFE65F2C"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <!--Personnalisation de la bordure des ListBox afin qu'elle soit gris foncé avec une épaisseur de 2 pixels-->
+        <Style x:Key="BorderListBox" TargetType="Border">
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+
+        <!--Personnalisation de ListView-->
+        <Style x:Key="listV" TargetType="ListView">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <!--Personnalisation des Bouton-->
+        <!--<SolidColorBrush x:Key="buttonForegroundNormal" Color="#FFE65F2C"/>
+        <SolidColorBrush x:Key="buttonForegroundPointerOver" Color="White"/>
+        <SolidColorBrush x:Key="buttonForegroundPressed" Color="#FF1D1D1D"/>
+        <SolidColorBrush x:Key="buttonForegroundDisabled" Color="White"/>
+        <SolidColorBrush x:Key="buttonBackgroundNormal" Color="#FF1D1D1D"/>
+        <SolidColorBrush x:Key="buttonBackgroundPointerOver" Color="#FF1D1D1D"/>
+        <SolidColorBrush x:Key="buttonBackgroundPressed" Color="White"/>
+        <SolidColorBrush x:Key="buttonBackgroundDisabled" Color="Gray"/>
+        <Style TargetType="Button" x:Key="myButtonStyle">
+            <Setter Property="Background" Value="{StaticResource buttonBackgroundNormal}"/>
+            <Setter Property="Foreground" Value="{StaticResource buttonForegroundNormal}"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Target="content.Foreground" Value="{TemplateBinding Foreground}"/>
+                                            <Setter Target="content.Background" Value="{TemplateBinding Background}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="content.Foreground" Value="{StaticResource buttonForegroundPointerOver}"/>
+                                            <Setter Target="content.Background" Value="{StaticResource buttonBackgroundPointerOver}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="content.Foreground" Value="{StaticResource buttonForegroundPressed}"/>
+                                            <Setter Target="content.Background" Value="{StaticResource buttonBackgroundPressed}"/>
+                                            <Setter Target="content.RenderTransform">
+                                                <Setter.Value>
+                                                    <CompositeTransform SkewX="-5"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="content.Foreground" Value="{StaticResource buttonForegroundDisabled}"/>
+                                            <Setter Target="content.Background" Value="{StaticResource buttonBackgroundDisabled}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <ContentPresenter x:Name="content" CornerRadius="5" Padding="5"
+                                              Foreground="{StaticResource buttonForegroundNormal}"
+                                              BorderBrush="{Binding Foreground, RelativeSource={RelativeSource Self}}"
+                                              Background="{TemplateBinding Background}" BorderThickness="3" RenderTransformOrigin="0.5,0.5"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <Style TargetType="Button" x:Key="myButtonStyle">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Application.Resources>
+
+</Application>

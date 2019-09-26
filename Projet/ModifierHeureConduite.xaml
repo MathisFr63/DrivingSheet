@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="Projet.ModifierHeureConduite"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Moniteur : "/>
+            <ListView ItemsSource="{Binding CompteCourant.Formateurs}" SelectedIndex="{x:Bind Manager.SelectedIndexFormateur, Mode=TwoWay}" Grid.Column="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:AffichageUserControl FirstLabel="{Binding Prenom}" SecondLabel="{Binding Nom}" Image="{Binding Image}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Elève : "/>
+            <ListView ItemsSource="{x:Bind Manager.CompteCourant.Profils}" SelectedIndex="{x:Bind Manager.SelectedIndexProfil, Mode=TwoWay}" Grid.Column="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:AffichageUserControl FirstLabel="{Binding Prenom}" SecondLabel="{Binding Nom}" Image="{Binding Image}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Date : "/>
+            <DatePicker Date="{x:Bind MaDate, Mode=TwoWay}" Grid.Column="1"/>
+            <TimePicker Time="{x:Bind MonHeure, Mode=TwoWay}" Grid.Column="2"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Temps : "/>
+            <TimePicker Time="{x:Bind MaDurée, Mode=TwoWay}" Name="Temps" Grid.Column="1"/>
+        </Grid>
+        <Button Content="Enregistrer" Click="Enregistrer" Style="{StaticResource myButtonStyle}" Grid.Row="2" HorizontalAlignment="Center"/>
+        <Button Content="Annuler" Click="Annuler" Style="{StaticResource myButtonStyle}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"/>
+    </Grid>
+</Page>

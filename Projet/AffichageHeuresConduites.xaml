@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="Projet.AffichageHeuresConduites"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Le premier Calendrier Fonctionne le deuxième a une erreur dûe au SelectedDatesChanged-->
+            <!--<CalendarView Margin="10" SelectionMode="Single"/>-->
+            <CalendarView Margin="10" SelectionMode="Single" Name="Calendrier" SelectedDatesChanged="CalendarView_SelectedDatesChanged"/>
+            <Button Content="Ajouter" Click="AjouterHeure" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button Content="Modifier" Click="ModifierHeure" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2"/>
+            <Button Content="Supprimer" Click="SupprimerHeure" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3"/>
+        </Grid>
+
+        <Border Style="{StaticResource BorderListBox}" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <ListView ItemsSource="{x:Bind Manager.ListeHeuresConduite, Mode=OneWay}" SelectedIndex="{x:Bind Manager.SelectedIndexHeureConduite, Mode=TwoWay}" Foreground="White" x:Name="TestListe">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Moniteur" Style="{StaticResource textL}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Elève" Style="{StaticResource textL}" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Heure" Style="{StaticResource textL}" FontWeight="Bold" Grid.Column="2" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Temps" Style="{StaticResource textL}" FontWeight="Bold" Grid.Column="3" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Key.Item1}" Style="{StaticResource textL}" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Value.Item1}" Style="{StaticResource textL}" Grid.Column="1" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Key.Item2.TimeOfDay}" Style="{StaticResource textL}" Grid.Column="2" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Value.Item2}" Style="{StaticResource textL}" Grid.Column="3" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{x:Bind Manager.SelectedHeureConduite.Key.Item1, Mode=OneWay}" Grid.Row="1"/>
+    </Grid>
+</Page>

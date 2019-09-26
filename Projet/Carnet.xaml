@@ -1,0 +1,121 @@
+﻿<!--Page Permettant l'affichage du carnet de route-->
+<Page
+    x:Class="Projet.Carnet"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:metier="using:Métier2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+        <Style TargetType="TextBlock" x:Key="TextNormal">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,25,0"/>
+            <Setter Property="FontFamily" Value="consolas"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource BorderListBox}" Margin="10" HorizontalAlignment="Left">
+                <!--ListBox contenant le prénom et le nombre total de kilomètres parcourus-->
+                <ListView ItemsSource="{x:Bind Manager.CompteCourant.Profils}" SelectedIndex="{x:Bind Manager.SelectedIndexProfil, Mode=TwoWay}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="metier:Profil">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{x:Bind Prenom, Mode=OneWay}" Style="{StaticResource TextNormal}"/>
+                                <TextBlock Style="{StaticResource TextDonnees}" Grid.Row="1">
+                                    <Run Text="{x:Bind KmTotaux, Mode=OneWay}"/>
+                                    <Run Text=" Km"/>
+                                </TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <!--Bouton permettant la suppression d'un trajet sélectionné-->
+            <Button Grid.Column="1" Content="Supprimer" HorizontalAlignment="Right" Margin="0,0,15,0" Click="Supprimer"/>
+        </Grid>
+
+        <!--ListView contenant tous les trajets du profil sélectionné-->
+        <ListView ItemsSource="{Binding SelectedProfil.Trajets, Mode=OneWay}" SelectedIndex="{Binding SelectedIndexTrajet, Mode=TwoWay}" Grid.Row="1">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Départ" Style="{StaticResource TextNormal}"/>
+                        <TextBlock Text="Arrivée" Style="{StaticResource TextNormal}" Grid.Column="1"/>
+                        <TextBlock Text="Date" Style="{StaticResource TextNormal}" Grid.Column="2"/>
+                        <TextBlock Text="Kilomètres" Style="{StaticResource TextNormal}" Grid.Column="3"/>
+                        <TextBlock Text="Durée" Style="{StaticResource TextNormal}" Grid.Column="4"/>
+                        <TextBlock Text="Voiture" Style="{StaticResource TextNormal}" Grid.Column="5"/>
+                        <TextBlock Text="Météo" Style="{StaticResource TextNormal}" Grid.Column="6"/>
+                        <TextBlock Text="Trafic" Style="{StaticResource TextNormal}" Grid.Column="7"/>
+                        <TextBlock Text="Remarques" Style="{StaticResource TextNormal}" Grid.Column="8"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="metier:Trajet">
+                    <!--Grid contenant les informations de chaque trajet (Date, Départ, Arrivée, Kilomètres, Durée, Voiture, Météo, Trafic, Remarques-->
+                    <Grid Grid.Row="1" CornerRadius="10" BorderThickness="5" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Bind Depart}" Style="{StaticResource TextDonnees}"/>
+                        <TextBlock Text="{x:Bind Arrivee}" Style="{StaticResource TextDonnees}" Grid.Column="1"/>
+                        <TextBlock Text="{x:Bind Date, Converter={StaticResource dateTime2StringConverter}}" Style="{StaticResource TextDonnees}" Grid.Column="2"/>
+                        <TextBlock Text="{x:Bind Km}" Style="{StaticResource TextDonnees}" Grid.Column="3"/>
+                        <TextBlock Text="{x:Bind Duree}" Style="{StaticResource TextDonnees}" Grid.Column="4"/>
+                        <TextBlock Text="{x:Bind Voiture.Modele}" Style="{StaticResource TextDonnees}" Grid.Column="5"/>
+                        <TextBlock Text="{x:Bind Meteo}" Style="{StaticResource TextDonnees}" Grid.Column="6"/>
+                        <TextBlock Text="{x:Bind Trafic}" Style="{StaticResource TextDonnees}" Grid.Column="7"/>
+                        <TextBlock Text="{x:Bind Remarque}" Style="{StaticResource TextDonnees}" Grid.Column="8"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

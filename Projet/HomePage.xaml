@@ -1,0 +1,40 @@
+﻿<!--Page Permettant l'affichage principal avec le Master et le detail qui change en code-behind-->
+<Page
+    x:Class="Projet.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Style="{StaticResource GridHome}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource BorderListBox}" Margin="10">
+            <!--ListVew affichant le Master qui est créé en code-behind-->
+            <ListView x:Name="PartsControl" SelectionMode="Single" SelectionChanged="PartsControl_SelectionChanged" ItemsSource="{x:Bind Parts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Part">
+                        <StackPanel>
+                            <Ellipse Width="75" Height="75" HorizontalAlignment="Left">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding ImageSource}"/>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{x:Bind Title}" FontSize="28" Foreground="White" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+        <!--Frame contenant le Detail que l'on affiche grâce au Master en sélectionnant le menu dans la ListView-->
+        <Frame Grid.Column="1" x:Name="PartFrame"/>
+    </Grid>
+</Page>

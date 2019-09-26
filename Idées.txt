@@ -1,0 +1,9 @@
+Questions : 
+	-	Création d'un tableau pour afficher
+	-	Command pour gérer l'action des boutons en UWP
+
+AjouterTrajet ne se fait pas avec un trajet, à essayer de modifier.
+La météo et le trafic ne sont pas enregistrer.
+Modifier les pages XAML de modification du profil en fonction du Compte.
+Pareil pour l'affichage du profil avec les voitures lorsque le compte est un ComtpeEcole.
+Faire la connection et charger le fichier en fonction de la connection.

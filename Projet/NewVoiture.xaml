@@ -1,0 +1,72 @@
+﻿<!--Page permettant de créer une voiture-->
+<Page
+    x:Class="Projet.NewVoiture"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+    </Page.Resources>
+    
+    <Grid BorderBrush="DarkGray" BorderThickness="5" Margin="10" CornerRadius="10" Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--Grid permettant la saisie de la marque de la voiture-->
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Marque : "/>
+                <TextBox Text="{x:Bind voiture.Marque, Mode=TwoWay}" MinWidth="150" Name="BoxMarque" Grid.Column="1"/>
+            </Grid>
+            <!--Grid permettant la saisie du modèle de la voiture-->
+            <Grid VerticalAlignment="Center" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Modèle : "/>
+                <TextBox Text="{x:Bind voiture.Modele, Mode=TwoWay}" MinWidth="150" Name="BoxModele" Grid.Column="1"/>
+            </Grid>
+            <!--Grid permettant la saisie de l'immatriculation de la voiture-->
+            <Grid VerticalAlignment="Center" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Immatriculation : "/>
+                <TextBox Text="{x:Bind voiture.Immat, Mode=TwoWay}" MinWidth="150" Name="BoxImmat" Grid.Column="1"/>
+            </Grid>
+            <Image Source="/Assets/VoitureIcône.jpg" HorizontalAlignment="Center" Grid.Column="1" Grid.RowSpan="3"/>
+        </Grid>
+
+        <!--Grid contenant 2 boutons permettant de créer une voiture ou d'annuler la création-->
+        <Grid Grid.Row="3" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Bouton permettant d'ajouter la voiture à la liste de voitures de notre compte-->
+            <Button Content="Ajouter" HorizontalAlignment="Center" Click="Ajouter"/>
+            <!--Bouton permettant d'annuler la création de la voiture-->
+            <Button Content="Annuler" Grid.Column="1" HorizontalAlignment="Center" Click="Annuler"/>
+        </Grid>
+    </Grid>
+</Page>

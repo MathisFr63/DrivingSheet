@@ -1,0 +1,107 @@
+﻿<!--Page Permettant l'affichage des informations de la voiture-->
+<Page
+    x:Class="Projet.AffichageVoitures"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Projet"
+    xmlns:metier="using:Métier2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource myButtonStyle}"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource BorderListBox}" Margin="20">
+                <!--ListView contenant le modèle de la voiture et permetant d'afficher les informations concernant la oviture sélectionée-->
+                <!--<ListBox ItemsSource="{x:Bind compte.Voitures}" SelectedIndex="{Binding SelectedIndexVoiture, Mode=TwoWay}" Background="#FF1D1D1D" DisplayMemberPath="Modele" Foreground="White"/>-->
+                <!--<ListBox ItemsSource="{Binding CompteCourant.Voitures}" SelectedIndex="{Binding SelectedIndexVoiture, Mode=TwoWay}" DisplayMemberPath="Modele" Background="#FF1D1D1D" Foreground="White" Height="0" VerticalAlignment="Top"/>-->
+                <ListView DataContext="{x:Bind Manager}" ItemsSource="{Binding CompteCourant.Voitures}" SelectedIndex="{Binding SelectedIndexVoiture, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:AffichageUserControl FirstLabel="{Binding Marque}" SecondLabel="{Binding Modele}" Image="{Binding}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+
+            <!--ListBox contenant les prénoms de chaque utilisateurs-->
+            <Border Style="{StaticResource BorderListBox}" Grid.Row="2" Margin="20">
+                <!--<ListBox Background="#FF1D1D1D" ItemsSource="{x:Bind Manager.CompteCourant.Profils}" SelectedIndex="{x:Bind Manager.SelectedIndexProfil, Mode=TwoWay}" DisplayMemberPath="Prenom" Foreground="White"/>-->
+                <ListView ItemsSource="{x:Bind Manager.CompteCourant.Profils}" SelectedIndex="{x:Bind Manager.SelectedIndexProfil, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="metier:Profil">
+                            <local:AffichageUserControl FirstLabel="{x:Bind Prenom}" SecondLabel="{x:Bind Nom}" Image="{Binding}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+        </Grid>
+        <!--Grid contenant toutes les informations concernant la voiture sélectionnée-->
+        <Grid Grid.Column="1" BorderBrush="DarkGray" BorderThickness="5" CornerRadius="10" Margin="50">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!--Grid contenant la marque, le modèle, et l'immatriculation de la voiture sélectionnée-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <!--StackPanel contenant la marque de la voiture sélectionnée-->
+                        <TextBlock VerticalAlignment="Center">
+                                <Run Text="Marque : "/>
+                                <Run Text="{x:Bind Manager.SelectedVoiture.Marque, Mode=OneWay}"/>
+                        </TextBlock>
+                        <!--StackPanel contenant le modèle de la voiture sélectionnée-->
+                        <TextBlock Grid.Row="1" VerticalAlignment="Center">
+                                <Run Text="Modèle : "/>
+                                <Run Text="{x:Bind Manager.SelectedVoiture.Modele, Mode=OneWay}"/>
+                        </TextBlock>
+                        <!--StackPanel contenant l'immatriculation de la voiture sélectionnée-->
+                        <TextBlock Grid.Row="2" VerticalAlignment="Center">
+                                <Run Text="Immatriculation : "/>
+                                <Run Text="{x:Bind Manager.SelectedVoiture.Immat, Mode=OneWay}"/>
+                        </TextBlock>
+                    </Grid>
+                    <!--Image de la voiture-->
+                    <Image Source="{Binding SelectedVoiture.Image, Mode=OneWay, Converter={StaticResource string2UriConverter}}" VerticalAlignment="Center" Grid.Column="1" Margin="10"/>
+                    <!--Bouton permettant de modifier la voiture sélectionnée-->
+                    <Button Content="Modifier" VerticalAlignment="top" HorizontalAlignment="Right" Click="Button_Click" Grid.Column="2"/>
+                </Grid>
+                <!--Grid contenant une ListBox qui contient le prénom de chaque utilisateur et permettant d'afficher la distance parcourue par l'utilisateur sélectionné avec la voiture dont on affiche les infos-->
+                <Grid Grid.Row="1" VerticalAlignment="Center">
+                    <TextBlock Grid.Column="2">
+                        <Run Text="Distance parcourue par &quot;"/>
+                        <Run Text="{x:Bind Manager.SelectedProfil.Prenom, Mode=OneWay}"/>
+                        <Run Text="&quot; en"/>
+                        <Run Text="{Binding SelectedVoiture.Modele, Mode=OneWay}"/>
+                        <Run Text=": "/>
+                        <Run Text="{x:Bind Manager.KmVoiture, Mode=OneWay}"/>
+                        <Run Text=" Km"/>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
